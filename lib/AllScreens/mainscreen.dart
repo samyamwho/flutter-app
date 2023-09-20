@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, prefer_interpolation_to_compose_strings
+// ignore_for_file: use_build_context_synchronously, prefer_interpolation_to_compose_strings, unnecessary_null_comparison
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -49,6 +49,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final pickUpLocation = Provider.of<AppData>(context).pickUpLocation;
+    // ignore: unused_local_variable
+    final placeName = pickUpLocation != null ? pickUpLocation.placeName : "Add Home";
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
