@@ -1,6 +1,12 @@
+// ignore_for_file: use_build_context_synchronously, prefer_interpolation_to_compose_strings
+
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:team_rescue_routes/Assistants/assistantMethods.dart';
+import 'package:team_rescue_routes/DataHandler/appData.dart';
 import 'package:team_rescue_routes/Divider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -11,11 +17,30 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> 
-{
+class _MainScreenState extends State<MainScreen> {
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   late GoogleMapController newGoogleMapController;
+
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late Position currentPosition;
+  var geoLocator = Geolocator();
+  double bottomPaddingofMap = 0;
+
+  void locatePosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = position;
+
+    LatLng latLatPosition = LatLng(position.latitude, position.longitude);
+    CameraPosition cameraPosition =
+        CameraPosition(target: latLatPosition, zoom: 14);
+    newGoogleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String address = await AssistantMethods.searchCoordinateAddress(position as BuildContext, context as Position);
+    print("This is your Address :: " + address);
+  }
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -33,60 +58,80 @@ class _MainScreenState extends State<MainScreen>
         color: Colors.white,
         width: 255.0,
         child: Drawer(
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 165.0,
-                child: DrawerHeader(
+          child: ListView(children: [
+            SizedBox(
+              height: 165.0,
+              child: DrawerHeader(
                   decoration: const BoxDecoration(color: Colors.white),
                   child: Row(
                     children: [
-                      Image.asset("images/user_icon.png", height: 65.0, width: 65.0,),
-                      const SizedBox(width: 16.0,),
+                      Image.asset(
+                        "images/user_icon.png",
+                        height: 65.0,
+                        width: 65.0,
+                      ),
+                      const SizedBox(
+                        width: 16.0,
+                      ),
                       const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Profile Name", style: TextStyle(fontSize: 16.0, fontFamily: "Brand-Bold"),),
-                          SizedBox(height: 6.0,),
+                          Text(
+                            "Profile Name",
+                            style: TextStyle(
+                                fontSize: 16.0, fontFamily: "Brand-Bold"),
+                          ),
+                          SizedBox(
+                            height: 6.0,
+                          ),
                           Text("Visit Profile"),
                         ],
                       )
                     ],
-                  )
-                ),
-              ),
+                  )),
+            ),
 
-              const DividerWidget(),
+            const DividerWidget(),
 
-              const SizedBox(height: 12.0,),
+            const SizedBox(
+              height: 12.0,
+            ),
 
-              // Drawer body controller
-              const ListTile(
-                leading: Icon(Icons.history),
-                title: Text("History", style: TextStyle(fontSize: 15.0)),
-              ),
-              const ListTile(
-                leading: Icon(Icons.person),
-                title: Text("Visit Profile", style: TextStyle(fontSize: 15.0)),
-              ),
-              const ListTile(
-                leading: Icon(Icons.info),
-                title: Text("About", style: TextStyle(fontSize: 15.0)),
-              ),
-            ]
-          ),
+            // Drawer body controller
+            const ListTile(
+              leading: Icon(Icons.history),
+              title: Text("History", style: TextStyle(fontSize: 15.0)),
+            ),
+            const ListTile(
+              leading: Icon(Icons.person),
+              title: Text("Visit Profile", style: TextStyle(fontSize: 15.0)),
+            ),
+            const ListTile(
+              leading: Icon(Icons.info),
+              title: Text("About", style: TextStyle(fontSize: 15.0)),
+            ),
+          ]),
         ),
       ),
-
       body: Stack(
         children: [
           GoogleMap(
+            padding: EdgeInsets.only(bottom: bottomPaddingofMap),
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
+            myLocationEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
+
+              setState(() {
+                bottomPaddingofMap = 300.0;
+              });
+
+              locatePosition();
             },
           ),
 
@@ -95,8 +140,7 @@ class _MainScreenState extends State<MainScreen>
             top: 45.0,
             left: 22.0,
             child: GestureDetector(
-              onTap: ()
-              {
+              onTap: () {
                 scaffoldKey.currentState!.openDrawer();
               },
               child: Container(
@@ -118,8 +162,11 @@ class _MainScreenState extends State<MainScreen>
                 child: const CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 20.0,
-                  child: Icon(Icons.menu, color: Colors.black,),
+                  child: Icon(
+                    Icons.menu,
+                    color: Colors.black,
                   ),
+                ),
               ),
             ),
           ),
@@ -129,7 +176,7 @@ class _MainScreenState extends State<MainScreen>
             right: 0.0,
             bottom: 0.0,
             child: Container(
-              height: 320.0,
+              height: 300.0,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -151,8 +198,15 @@ class _MainScreenState extends State<MainScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 6.0),
-                    const Text("Hi there,", style: TextStyle(fontSize: 10.0),),
-                    const Text("Where to?,", style: TextStyle(fontSize: 20.0, fontFamily: "Brand-Bold"),),
+                    const Text(
+                      "Hi there,",
+                      style: TextStyle(fontSize: 10.0),
+                    ),
+                    const Text(
+                      "Where to?,",
+                      style:
+                          TextStyle(fontSize: 20.0, fontFamily: "Brand-Bold"),
+                    ),
                     const SizedBox(height: 20.0),
                     Container(
                       decoration: BoxDecoration(
@@ -171,8 +225,13 @@ class _MainScreenState extends State<MainScreen>
                         padding: EdgeInsets.all(12.0),
                         child: Row(
                           children: [
-                            Icon(Icons.search, color: Colors.blueAccent,),
-                            SizedBox(width: 10.0,),
+                            Icon(
+                              Icons.search,
+                              color: Colors.blueAccent,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
                             Text("Search Drop Off")
                           ],
                         ),
@@ -191,7 +250,11 @@ class _MainScreenState extends State<MainScreen>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Add home"),
+                            Text(
+                              Provider.of<AppData>(context).pickUpLocation != null 
+                                  ? Provider.of<AppData>(context).pickUpLocation.placeName
+                                  : "Add Home",
+                            ),
                             SizedBox(
                               height: 4.0,
                             ),
