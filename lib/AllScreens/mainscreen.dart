@@ -242,13 +242,13 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     const SizedBox(height: 24.0),
-                    const Row(
+                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.home,
                           color: Colors.grey,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 12.0,
                         ),
                         Column(
@@ -259,10 +259,10 @@ class _MainScreenState extends State<MainScreen> {
                                   ? Provider.of<AppData>(context).pickUpLocation.placeName
                                   : "Add Home",
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 4.0,
                             ),
-                            Text(
+                            const Text(
                               "Your living home address",
                               style: TextStyle(
                                   color: Colors.black54, fontSize: 12.0),
