@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "148634713805",
+    "firebase_url": "https://rescue-routes-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rescue-routes",
+    "storage_bucket": "rescue-routes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148634713805:android:a7eecf1eefdaae46663384",
+        "android_client_info": {
+          "package_name": "com.example.team_rescue_routes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALnUd_axubpy4cAfnlPWnipfCRhijvz20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
