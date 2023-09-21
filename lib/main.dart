@@ -7,24 +7,17 @@ import 'package:team_rescue_routes/AllScreens/mainscreen.dart';
 import 'package:team_rescue_routes/AllScreens/registration_Screen.dart';
 import 'package:team_rescue_routes/DataHandler/appData.dart';
 
-void main() async {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(const MyApp());
-
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppData(), // Create the AppData instance
-      child: const MyApp(),
-    ),
-  );
 }
 
 DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   // This widget is the root of your application.
   @override
@@ -38,7 +31,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        initialRoute: MainScreen.idScreen,
+        initialRoute: LoginScreen.idScreen,
         routes: {
           RegistrationScreen.idScreen: (context) => RegistrationScreen(),
           LoginScreen.idScreen: (context) => LoginScreen(),

@@ -10,8 +10,9 @@ import 'package:team_rescue_routes/DataHandler/appData.dart';
 import 'package:team_rescue_routes/Divider.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
   static const String idScreen = "mainScreen";
+
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -26,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   late Position currentPosition;
   var geoLocator = Geolocator();
   double bottomPaddingofMap = 0;
-
+  
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -49,9 +50,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pickUpLocation = Provider.of<AppData>(context).pickUpLocation;
-    // ignore: unused_local_variable
-    final placeName = pickUpLocation != null ? pickUpLocation.placeName : "Add Home";
+    final appData = Provider.of<AppData>(context);
 
     return Scaffold(
       key: scaffoldKey,
@@ -229,18 +228,14 @@ class _MainScreenState extends State<MainScreen> {
                         padding: EdgeInsets.all(12.0),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.search,
-                              color: Colors.blueAccent,
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
+                            Icon(Icons.search, color: Colors.blueAccent,),
+                            SizedBox(width: 10.0,),
                             Text("Search Drop Off")
                           ],
                         ),
                       ),
-                    ),
+                    ), 
+                            
                     const SizedBox(height: 24.0),
                     const Row(
                       children: [
@@ -255,10 +250,9 @@ class _MainScreenState extends State<MainScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              Provider.of<AppData>(context).pickUpLocation != null 
-                                  ? Provider.of<AppData>(context).pickUpLocation.placeName
-                                  : "Add Home",
+                              Provider.of<AppData>(context).pickUpLocation?.placeName ?? "Add Home" 
                             ),
+                          
                             SizedBox(
                               height: 4.0,
                             ),

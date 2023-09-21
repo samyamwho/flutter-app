@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart'; // Import 'widgets' instead of 'framework'
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -8,11 +9,11 @@ import 'package:team_rescue_routes/DataHandler/appData.dart';
 import 'package:team_rescue_routes/Models/address.dart';
 
 class AssistantMethods {
-  static BuildContext? get context => null;
-  
-  static get mapkey => null;
+    static BuildContext? get context => null;
+    
+    static get mapkey => null;
 
-  static Future<String> searchCoordinateAddress(BuildContext context, Position position) async {
+    static Future<String> searchCoordinateAddress(BuildContext context, Position position) async {
     
     String placeAddress = "";
     String st1, st2, st3, st4;
@@ -39,7 +40,7 @@ class AssistantMethods {
       userPickUpAddress.placeName = placeAddress;
 
       Provider.of<AppData>(context, listen: false)
-          .updatePickUpLocationAddress(userPickUpAddress);
+          .updatePickupLocationAddress(userPickUpAddress);
     }
 
     return placeAddress;
