@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:team_rescue_routes/AllScreens/searchScreen.dart';
 import 'package:team_rescue_routes/Assistants/assistantMethods.dart';
 import 'package:team_rescue_routes/DataHandler/appData.dart';
 import 'package:team_rescue_routes/Divider.dart';
@@ -27,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   late Position currentPosition;
   var geoLocator = Geolocator();
   double bottomPaddingofMap = 0;
-  
+
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -39,7 +40,8 @@ class _MainScreenState extends State<MainScreen> {
     newGoogleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String address = await AssistantMethods.searchCoordinateAddress(position as BuildContext, context as Position);
+    String address = await AssistantMethods.searchCoordinateAddress(
+        position as BuildContext, context as Position);
     print("This is your Address :: " + address);
   }
 
@@ -50,7 +52,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -210,33 +211,45 @@ class _MainScreenState extends State<MainScreen> {
                           TextStyle(fontSize: 20.0, fontFamily: "Brand-Bold"),
                     ),
                     const SizedBox(height: 20.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.0),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black54,
-                            blurRadius: 6.0,
-                            spreadRadius: 0.5,
-                            offset: Offset(0.7, 0.7),
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.search, color: Colors.blueAccent,),
-                            SizedBox(width: 10.0,),
-                            Text("Search Drop Off")
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchScreen()));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5.0),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black54,
+                              blurRadius: 6.0,
+                              spreadRadius: 0.5,
+                              offset: Offset(0.7, 0.7),
+                            ),
                           ],
                         ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.blueAccent,
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text("Search Drop Off")
+                            ],
+                          ),
+                        ),
                       ),
-                    ), 
-                            
+                    ),
                     const SizedBox(height: 24.0),
-                     Row(
+                    Row(
                       children: [
                         const Icon(
                           Icons.home,
@@ -249,7 +262,10 @@ class _MainScreenState extends State<MainScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              Provider.of<AppData>(context).pickUpLocation?.placeName ?? "Add Home", 
+                              Provider.of<AppData>(context)
+                                      .pickUpLocation
+                                      ?.placeName ??
+                                  "Add Home",
                             ),
                             const SizedBox(
                               height: 4.0,
