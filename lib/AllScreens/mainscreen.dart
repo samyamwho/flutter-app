@@ -252,7 +252,7 @@ class _MainScreenState extends State<MainScreen> {
                             Text(
                               Provider.of<AppData>(context).pickUpLocation?.placeName ?? "Add Home" 
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 4.0,
                             ),
                             const Text(
