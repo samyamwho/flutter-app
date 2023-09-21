@@ -6,7 +6,6 @@ import 'package:team_rescue_routes/Assistants/requestAssistant.dart';
 import 'package:team_rescue_routes/DataHandler/appData.dart';
 import 'package:team_rescue_routes/Divider.dart';
 import 'package:team_rescue_routes/Models/placePredictions.dart';
-import 'package:team_rescue_routes/configMaps.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -170,7 +169,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void findPlace(String placeName) async {
     if (placeName.length > 1) {
       String autoCompleteUrl =
-          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$mapKey&sessiontoken=1234567890&components=country:np";
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=AIzaSyALnUd_axubpy4cAfnlPWnipfCRhijvz20&sessiontoken=1234567890&components=country:np";
 
       var res = await RequestAssistant.getRequest(autoCompleteUrl);
 
