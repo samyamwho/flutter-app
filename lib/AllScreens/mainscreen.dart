@@ -50,7 +50,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appData = Provider.of<AppData>(context);
 
     return Scaffold(
       key: scaffoldKey,
