@@ -249,7 +249,7 @@ class _MainScreenState extends State<MainScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              Provider.of<AppData>(context).pickUpLocation?.placeName ?? "Add Home" 
+                              Provider.of<AppData>(context).pickUpLocation?.placeName ?? "Add Home", 
                             ),
                             const SizedBox(
                               height: 4.0,
