@@ -18,5 +18,7 @@ class AppData with ChangeNotifier {
   }
 
   void updatePickupLocationAddress(Address userPickUpAddress) {}
+
+  void upDateDropOffLocationAddress(Address address) {}
   // Other fields and methods...
 }

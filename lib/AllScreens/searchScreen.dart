@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_rescue_routes/Assistants/requestAssistant.dart';
@@ -125,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               },
                               controller: dropOfftextEditingController,
                               decoration: InputDecoration(
-                                hintText: "Where to?",
+                                hintText: "Where to go?",
                                 fillColor: Colors.grey[400],
                                 filled: true,
                                 border: InputBorder.none,
