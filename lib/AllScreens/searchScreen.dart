@@ -233,10 +233,12 @@ class PredictionTile extends StatelessWidget {
               )
             ],
           ),
+          const SizedBox(width: 10.0,),
         ],
       ),
     );
   }
+  
 }
 
 // dropoff
