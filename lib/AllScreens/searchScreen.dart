@@ -157,7 +157,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemCount: placePredictionList.length,
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
-                  ) ,
+                  ),
                  )
                 : Container(),
         ],
